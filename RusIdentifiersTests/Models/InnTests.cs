@@ -1,5 +1,5 @@
 ﻿using RusIdentifiersTests.Helpers;
-using RusIdentifiers;
+using RusIdentifiers.Models.FNS;
 
 namespace RusIdentifiersTests
 {
@@ -120,68 +120,46 @@ namespace RusIdentifiersTests
             Inn innUl = "7922519821";
             string resultFl = innFl;
             string resultUl = innUl;
-            Assert.AreEqual(resultFl, "592858264558");
-            Assert.AreEqual(resultUl, "7922519821");
+            Assert.AreEqual("592858264558", resultFl);
+            Assert.AreEqual("7922519821", resultUl);
         }
 
 
         [TestMethod]
-        public void SerializeTestInn()
+        public void SerializeTest()
         {
-            List<Inn> inns = new()
-            {
+            List<Inn> inns =
+            [
                 "592858264558",
                 "9215432913"
-            };
-            var result = Serializer.SerializeObject(inns);
+            ];
+            Serializer.SerializeObject(inns);
         }
 
         [TestMethod]
-        public void DeserializeTestInn()
+        public void DeserializeTest()
         {
             var xml = @"﻿<?xml version=""1.0"" encoding=""utf-8""?><ArrayOfInn xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""><Inn value=""592858264558""/><Inn value=""9215432913""/></ArrayOfInn>";
             var result = Serializer.DeserializeObject<List<Inn>>(xml);
-        }
-    }
-    
-    [TestClass()]
-    public class KppTests
-    {
-        [TestMethod]
-        public void CreateKpp()
-        {
-            _ = new Kpp("000000000");
-            _ = new Kpp("802744679");
-            _ = new Kpp("361401422");
-            _ = new Kpp("331101368");
-            _ = new Kpp("648245963");
-            _ = new Kpp("457045666");
-            _ = new Kpp("606744829");
-            _ = new Kpp("871201723");
-            _ = new Kpp("757544347");
-            _ = new Kpp("892301620");
-            _ = new Kpp("812643534");
-            _ = new Kpp("365143275");
-            _ = new Kpp("266243405");
-            _ = new Kpp("422645788");
-            _ = new Kpp("883843442");
-            _ = new Kpp("237144719");
-            _ = new Kpp("255745780");
-            _ = new Kpp("822243455");
-            _ = new Kpp("754144814");
-            _ = new Kpp("078943954");
-            _ = new Kpp("723545551");
-            _ = new Kpp("237844126");
-            _ = new Kpp("237701775");
-            _ = new Kpp("713444264");
-            _ = new Kpp("547501526");
-            _ = new Kpp("475143654");
-            _ = new Kpp("063444015");
-            _ = new Kpp("709901888");
-            _ = new Kpp("365243671");
-            _ = new Kpp("586945961");
-            _ = new Kpp("603901164");
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual("592858264558", (string)result[0]);
+            Assert.AreEqual("9215432913", (string)result[1]);
         }
 
+        [TestMethod]
+        public void EqualsTest()
+        {
+            #region Arrange
+            var value1 = new Inn("592858264558");
+            var value2 = new Inn("592858264558");
+            #endregion
+            #region Action
+            var result = value1 == value2;
+            #endregion
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion
+        }
     }
 }
