@@ -10,10 +10,9 @@ using System.Xml.Schema;
 namespace RusIdentifiers.Models.FSRAR
 {
     /// <summary>ФСРАР ID – уникальный идентификатор организации в ФСРАР.</summary>
+    [Serializable]
     public class FsrarId : IdentifierBase
     {
-        private readonly string _value;
-
         private FsrarId() { }
 
         /// <summary>ФСРАР ID</summary>
@@ -24,7 +23,7 @@ namespace RusIdentifiers.Models.FSRAR
         {
             value = value?.Trim();
             if (IsValid(value))
-                _value = value;
+                base.value = value;
             else
                 throw new RusIdentifiersArgumentException($"Значение \"{value}\" не является номером ФСРАР ID.");
         }
@@ -35,30 +34,14 @@ namespace RusIdentifiers.Models.FSRAR
         /// <exception cref="RusIdentifiersArgumentNullException"></exception>
         public static bool IsValid(string value)
         {
-            if (string.IsNullOrEmpty(value))
+            if (value is null)
                 throw new RusIdentifiersArgumentNullException(nameof(value));
             if (value.Length != 12 || !long.TryParse(value, out _))
                 return false;
             return true;
         }
 
-        /// <inheritdoc/>
-        public override XmlSchema GetSchema()
-        {
-            throw new NotImplementedException();
-        }
 
-        /// <inheritdoc/>
-        public override void ReadXml(XmlReader reader)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public override void WriteXml(XmlWriter writer)
-        {
-            throw new NotImplementedException();
-        }
 
         ///<summary>Преобразование значения в строку</summary>
         public static implicit operator string(FsrarId value) => 
@@ -67,10 +50,6 @@ namespace RusIdentifiers.Models.FSRAR
         ///<summary>Преобразование строки в значение</summary>
         public static implicit operator FsrarId(string value) =>
             new FsrarId(value);
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return _value.ToString();
-        }
+
     }
 }

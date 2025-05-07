@@ -7,16 +7,32 @@ namespace RusIdentifiers.Models
     /// <summary>Базовый класс идентификаторов России</summary>
     public abstract class IdentifierBase : IXmlSerializable
     {
+        /// <summary>Значение идентификатора</summary>
+        protected string value;
+
         #region IXmlSerializable
         /// <inheritdoc/>
-        public abstract XmlSchema GetSchema();
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
         /// <inheritdoc/>
-        public abstract void ReadXml(XmlReader reader);
+        public void ReadXml(XmlReader reader)
+        {
+            reader.MoveToContent();
+            value = reader.GetAttribute("value");
+            reader.Read();
+        }
+
         /// <inheritdoc/>
-        public abstract void WriteXml(XmlWriter writer);
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteAttributeString("value", value.ToString());
+        }
         #endregion
 
         /// <inheritdoc/>
-        public abstract override string ToString();
+        public override string ToString() => value;
     }
 }

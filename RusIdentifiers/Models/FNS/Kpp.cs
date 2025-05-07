@@ -1,7 +1,5 @@
 ﻿using RusIdentifiers.Exceptions;
 using System;
-using System.Xml;
-using System.Xml.Schema;
 
 namespace RusIdentifiers.Models.FNS
 {
@@ -9,7 +7,6 @@ namespace RusIdentifiers.Models.FNS
     [Serializable]
     public class Kpp : IdentifierBase
     {
-        private string _value;
         private Kpp() { }
 
         /// <summary>КПП (код причины постановки на учёт)</summary>
@@ -20,7 +17,7 @@ namespace RusIdentifiers.Models.FNS
             value = value?.Trim();
 
             if (IsValid(value))
-                _value = value;
+                base.value = value;
             else
                 throw new RusIdentifiersArgumentException($"Значение \"{value}\" не является номером КПП.");
         }
@@ -29,7 +26,7 @@ namespace RusIdentifiers.Models.FNS
         /// <returns>true - если строка соответствует КПП<br></br>false - если строка не соответствует КПП</returns>
         public static bool IsValid(string value)
         {
-            if (string.IsNullOrEmpty(value))
+            if (value is null)
                 throw new RusIdentifiersArgumentNullException(nameof(value));
             if (value.Length != 9 || !long.TryParse(value, out _))
                 return false;
@@ -37,40 +34,16 @@ namespace RusIdentifiers.Models.FNS
         }
 
         /// <inheritdoc/>
-        public override XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        /// <inheritdoc/>
-        public override void ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-            _value = reader.GetAttribute("value");
-            reader.Read();
-        }
-
-        /// <inheritdoc/>
-        public override void WriteXml(XmlWriter writer)
-        {
-            writer.WriteAttributeString("value", _value);
-        }
-        
-        /// <inheritdoc/>
-        public override string ToString() =>
-            _value;
-
-        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is Kpp kpp &&
-                   _value == kpp._value;
+                   value == kpp.value;
         }
 
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            return _value.GetHashCode();
+            return value.GetHashCode();
         }
 
         ///<summary>Преобразование значения в строку</summary>
@@ -86,15 +59,15 @@ namespace RusIdentifiers.Models.FNS
         }
 
         /// <inheritdoc/>
-        public static bool operator ==(Kpp lhs, Kpp rhs)
+        public static bool operator ==(Kpp lValue, Kpp rValue)
         {
-            return lhs.Equals(rhs);
+            return lValue.Equals(rValue);
         }
 
         /// <inheritdoc/>
-        public static bool operator !=(Kpp lhs, Kpp rhs)
+        public static bool operator !=(Kpp lValue, Kpp rValue)
         {
-            return !lhs.Equals(rhs);
+            return !lValue.Equals(rValue);
         }
     }
 }

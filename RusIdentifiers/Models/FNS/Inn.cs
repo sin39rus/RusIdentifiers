@@ -9,7 +9,6 @@ namespace RusIdentifiers.Models.FNS
     [Serializable]
     public class Inn : IdentifierBase
     {
-        private string _value;
         private Inn() { }
 
         /// <summary>ИНН</summary>
@@ -20,7 +19,7 @@ namespace RusIdentifiers.Models.FNS
         {
             value = value?.Trim();
             if (IsValid(value))
-                _value = value;
+                base.value = value;
             else
                 throw new RusIdentifiersArgumentException($"Значение \"{value}\" не является номером ИНН.");
         }
@@ -40,29 +39,6 @@ namespace RusIdentifiers.Models.FNS
             return false;
         }
 
-        /// <inheritdoc/>
-        public override string ToString() =>
-            _value;
-
-        /// <inheritdoc/>
-        public override XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        /// <inheritdoc/>
-        public override void ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-            _value = reader.GetAttribute("value");
-            reader.Read();
-        }
-
-        /// <inheritdoc/>
-        public override void WriteXml(XmlWriter writer)
-        {
-            writer.WriteAttributeString("value", _value);
-        }
         /// <summary>Преобразовать строку в значение ИНН</summary>
         /// <param name="value">Строка для преобразования</param>
         /// <returns>ИНН</returns>
@@ -105,13 +81,13 @@ namespace RusIdentifiers.Models.FNS
         public override bool Equals(object obj)
         {
             return obj is Inn inn &&
-                   _value == inn._value;
+                   value == inn.value;
         }
 
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            return _value.GetHashCode();
+            return value.GetHashCode();
         }
 
         /// <inheritdoc/>
