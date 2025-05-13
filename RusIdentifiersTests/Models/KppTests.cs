@@ -1,4 +1,4 @@
-﻿using RusIdentifiers.Models.FNS;
+﻿using RusIdentifiers.FNS;
 using RusIdentifiersTests.Helpers;
 
 namespace RusIdentifiersTests

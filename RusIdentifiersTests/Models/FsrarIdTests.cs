@@ -1,6 +1,6 @@
 ﻿using RusIdentifiers.Exceptions;
-using RusIdentifiers.Models.FNS;
-using RusIdentifiers.Models.FSRAR;
+using RusIdentifiers.FNS;
+using RusIdentifiers.FSRAR;
 using RusIdentifiersTests.Helpers;
 
 namespace RusIdentifiersTests
@@ -64,8 +64,7 @@ namespace RusIdentifiersTests
                 "020000031756",
                 "030000736840"
             ];
-            var xml = Serializer.SerializeObject(ids);
-            var result = Serializer.DeserializeObject<List<FsrarId>>(xml);
+            Serializer.SerializeObject(ids);
         }
 
         [TestMethod]

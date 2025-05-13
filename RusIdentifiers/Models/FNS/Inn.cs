@@ -3,7 +3,7 @@ using System;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace RusIdentifiers.Models.FNS
+namespace RusIdentifiers.FNS
 {
     /// <summary>ИНН — идентификационный номер налогоплательщика. Цифровой код, упорядочивающий учёт налогоплательщиков в Российской Федерации. Присваивается налоговой записи как юридических, так и физических лиц Федеральной налоговой службой России.</summary>
     [Serializable]
@@ -18,7 +18,7 @@ namespace RusIdentifiers.Models.FNS
         public Inn(string value)
         {
             value = value?.Trim();
-            if (IsValid(value))
+            if (IsInn(value))
                 base.value = value;
             else
                 throw new RusIdentifiersArgumentException($"Значение \"{value}\" не является номером ИНН.");
@@ -26,9 +26,9 @@ namespace RusIdentifiers.Models.FNS
 
         /// <summary>Проверка строки на значение ИНН</summary>
         /// <param name="value">Строка</param>
-        /// <returns>true - если строка соответствует ИНН <br></br>false - если строка не соответствует ИНН</returns>
+        /// <returns>true - если строка соответствует ИНН<br></br>false - если строка не соответствует ИНН</returns>
         /// <exception cref="RusIdentifiersArgumentNullException"></exception>
-        public static bool IsValid(string value)
+        public static bool IsInn(string value)
         {
             if (string.IsNullOrEmpty(value))
                 throw new RusIdentifiersArgumentNullException(nameof(value));
@@ -38,6 +38,9 @@ namespace RusIdentifiers.Models.FNS
                 return true;
             return false;
         }
+        /// <inheritdoc/>
+        public override bool IsValid() => 
+            IsInn(value);
 
         /// <summary>Преобразовать строку в значение ИНН</summary>
         /// <param name="value">Строка для преобразования</param>
@@ -165,7 +168,5 @@ namespace RusIdentifiers.Models.FNS
 
             return checkDigit2 == inn[11] - '0';
         }
-
-        
     }
 }

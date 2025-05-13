@@ -1,7 +1,7 @@
 ﻿using RusIdentifiers.Exceptions;
 using System;
 
-namespace RusIdentifiers.Models.FNS
+namespace RusIdentifiers.FNS
 {
     /// <summary>КПП (код причины постановки на учёт) — это девятизначный идентификатор, который включает код региона, номер ИФНС, код основания постановки на учёт и порядковый номер постановки на учёт. </summary>
     [Serializable]
@@ -16,15 +16,16 @@ namespace RusIdentifiers.Models.FNS
         {
             value = value?.Trim();
 
-            if (IsValid(value))
+            if (IsKpp(value))
                 base.value = value;
             else
                 throw new RusIdentifiersArgumentException($"Значение \"{value}\" не является номером КПП.");
         }
+
         /// <summary>Проверка строки на значение КПП</summary>
         /// <param name="value">Строка</param>
         /// <returns>true - если строка соответствует КПП<br></br>false - если строка не соответствует КПП</returns>
-        public static bool IsValid(string value)
+        public static bool IsKpp(string value)
         {
             if (value is null)
                 throw new RusIdentifiersArgumentNullException(nameof(value));
@@ -32,6 +33,10 @@ namespace RusIdentifiers.Models.FNS
                 return false;
             return true;
         }
+        /// <inheritdoc/>
+        public override bool IsValid() =>
+            IsKpp(value);
+
 
         /// <inheritdoc/>
         public override bool Equals(object obj)

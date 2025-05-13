@@ -1,5 +1,5 @@
 ﻿using RusIdentifiersTests.Helpers;
-using RusIdentifiers.Models.FNS;
+using RusIdentifiers.FNS;
 
 namespace RusIdentifiersTests
 {
@@ -10,6 +10,7 @@ namespace RusIdentifiersTests
         public void CreateInn()
         {
             _ = new Inn("000000000000");
+            _ = new Inn("390611309800");
             _ = new Inn("592858264558");
             _ = new Inn("061881161242");
             _ = new Inn("722957296054");

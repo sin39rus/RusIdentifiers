@@ -1,8 +1,11 @@
-﻿using System.Xml;
+﻿using RusIdentifiers.Exceptions;
+using RusIdentifiers.FNS;
+using System;
+using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace RusIdentifiers.Models
+namespace RusIdentifiers
 {
     /// <summary>Базовый класс идентификаторов России</summary>
     public abstract class IdentifierBase : IXmlSerializable
@@ -34,5 +37,9 @@ namespace RusIdentifiers.Models
 
         /// <inheritdoc/>
         public override string ToString() => value;
+
+        /// <summary>Проверка значения на соответствие идентификатору</summary>
+        /// <returns>true - если строка соответствует идентификатору<br></br>false - если строка не соответствует идентификатору</returns>
+        public abstract bool IsValid();
     }
 }

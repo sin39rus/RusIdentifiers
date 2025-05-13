@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace RusIdentifiers.Models.FSRAR
+namespace RusIdentifiers.FSRAR
 {
     /// <summary>ФСРАР ID – уникальный идентификатор организации в ФСРАР.</summary>
     [Serializable]
@@ -22,7 +22,7 @@ namespace RusIdentifiers.Models.FSRAR
         public FsrarId(string value)
         {
             value = value?.Trim();
-            if (IsValid(value))
+            if (IsFsrarId(value))
                 base.value = value;
             else
                 throw new RusIdentifiersArgumentException($"Значение \"{value}\" не является номером ФСРАР ID.");
@@ -32,7 +32,7 @@ namespace RusIdentifiers.Models.FSRAR
         /// <param name="value">Строка</param>
         /// <returns>true - если строка соответствует ФСРАР ID<br></br>false - если строка не соответствует ФСРАР ID</returns>
         /// <exception cref="RusIdentifiersArgumentNullException"></exception>
-        public static bool IsValid(string value)
+        public static bool IsFsrarId(string value)
         {
             if (value is null)
                 throw new RusIdentifiersArgumentNullException(nameof(value));
@@ -40,7 +40,9 @@ namespace RusIdentifiers.Models.FSRAR
                 return false;
             return true;
         }
-
+        /// <inheritdoc/>
+        public override bool IsValid() => 
+            IsFsrarId(value);
 
 
         ///<summary>Преобразование значения в строку</summary>
