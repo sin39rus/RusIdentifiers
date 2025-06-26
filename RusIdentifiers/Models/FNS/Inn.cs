@@ -13,11 +13,15 @@ namespace RusIdentifiers.FNS
 
         /// <summary>ИНН</summary>
         /// <param name="value">Значение</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="RusIdentifiersArgumentNullException"></exception>
+        /// <exception cref="RusIdentifiersArgumentException"></exception>
         public Inn(string value)
         {
-            value = value?.Trim();
+            if (string.IsNullOrEmpty(value))
+                throw new RusIdentifiersArgumentNullException(nameof(value));
+
+            value = value.Trim();
+
             if (IsInn(value))
                 base.value = value;
             else
@@ -27,20 +31,16 @@ namespace RusIdentifiers.FNS
         /// <summary>Проверка строки на значение ИНН</summary>
         /// <param name="value">Строка</param>
         /// <returns>true - если строка соответствует ИНН<br></br>false - если строка не соответствует ИНН</returns>
-        /// <exception cref="RusIdentifiersArgumentNullException"></exception>
         public static bool IsInn(string value)
         {
             if (string.IsNullOrEmpty(value))
-                throw new RusIdentifiersArgumentNullException(nameof(value));
+                return false;
             else if (value.Length == 10 && ValidateInnForLegalEntity(value))
                 return true;
             else if (value.Length == 12 && ValidateInnForIndividual(value))
                 return true;
             return false;
         }
-        /// <inheritdoc/>
-        public override bool IsValid() => 
-            IsInn(value);
 
         /// <summary>Преобразовать строку в значение ИНН</summary>
         /// <param name="value">Строка для преобразования</param>

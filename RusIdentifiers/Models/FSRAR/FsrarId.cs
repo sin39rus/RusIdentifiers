@@ -21,7 +21,9 @@ namespace RusIdentifiers.FSRAR
         /// <exception cref="RusIdentifiersArgumentException"></exception>
         public FsrarId(string value)
         {
-            value = value?.Trim();
+            if (value is null)
+                throw new RusIdentifiersArgumentNullException(nameof(value));
+            value = value.Trim();
             if (IsFsrarId(value))
                 base.value = value;
             else
@@ -35,15 +37,11 @@ namespace RusIdentifiers.FSRAR
         public static bool IsFsrarId(string value)
         {
             if (value is null)
-                throw new RusIdentifiersArgumentNullException(nameof(value));
+                return false;
             if (value.Length != 12 || !long.TryParse(value, out _))
                 return false;
             return true;
         }
-        /// <inheritdoc/>
-        public override bool IsValid() => 
-            IsFsrarId(value);
-
 
         ///<summary>Преобразование значения в строку</summary>
         public static implicit operator string(FsrarId value) => 

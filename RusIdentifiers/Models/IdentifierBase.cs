@@ -37,9 +37,5 @@ namespace RusIdentifiers
 
         /// <inheritdoc/>
         public override string ToString() => value;
-
-        /// <summary>Проверка значения на соответствие идентификатору</summary>
-        /// <returns>true - если строка соответствует идентификатору<br></br>false - если строка не соответствует идентификатору</returns>
-        public abstract bool IsValid();
     }
 }

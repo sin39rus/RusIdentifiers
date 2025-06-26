@@ -13,7 +13,9 @@ namespace RusIdentifiers.FSRAR
         /// <exception cref="RusIdentifiersArgumentNullException"></exception>
         public AlcoCode(string value)
         {
-            value = value?.Trim();
+            if (value is null)
+                throw new RusIdentifiersArgumentNullException(nameof(value));
+            value = value.Trim();
             if (IsAlcoCode(value))
                 base.value = value;
             else
@@ -26,7 +28,7 @@ namespace RusIdentifiers.FSRAR
         public static bool IsAlcoCode(string value)
         {
             if (value is null)
-                throw new RusIdentifiersArgumentNullException(nameof(value));
+                return false;
             if (value.Length != 19 || !long.TryParse(value, out _))
                 return false;
             return true;
@@ -61,8 +63,5 @@ namespace RusIdentifiers.FSRAR
                 return false;
             }
         }
-        /// <inheritdoc/>
-        public override bool IsValid() =>
-            IsAlcoCode(value);
     }
 }

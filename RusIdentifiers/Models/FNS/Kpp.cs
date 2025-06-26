@@ -11,9 +11,13 @@ namespace RusIdentifiers.FNS
 
         /// <summary>КПП (код причины постановки на учёт)</summary>
         /// <param name="value">Значение</param>
+        /// <exception cref="RusIdentifiersArgumentNullException"></exception>
         /// <exception cref="RusIdentifiersArgumentException"></exception>
         public Kpp(string value)
         {
+            if (value is null)
+                throw new RusIdentifiersArgumentNullException(nameof(value));
+
             value = value?.Trim();
 
             if (IsKpp(value))
@@ -28,15 +32,11 @@ namespace RusIdentifiers.FNS
         public static bool IsKpp(string value)
         {
             if (value is null)
-                throw new RusIdentifiersArgumentNullException(nameof(value));
+                return false;
             if (value.Length != 9 || !long.TryParse(value, out _))
                 return false;
             return true;
         }
-        /// <inheritdoc/>
-        public override bool IsValid() =>
-            IsKpp(value);
-
 
         /// <inheritdoc/>
         public override bool Equals(object obj)
